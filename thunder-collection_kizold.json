@@ -1,0 +1,70 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "kizold",
+    "dateExported": "2024-04-10T21:26:22.054Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "5879986c-acaa-416c-85cb-62eac3356281",
+            "colId": "f3ea80e2-4ec3-4046-8434-97d65d42a09a",
+            "containerId": "",
+            "name": "bejegyzesek",
+            "url": "http://localhost:8000/api/entries",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-04-10T17:03:02.470Z",
+            "modified": "2024-04-10T17:03:13.488Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "ff58e76b-fd9f-4e9c-90b2-62ce43ea8da8",
+            "colId": "f3ea80e2-4ec3-4046-8434-97d65d42a09a",
+            "containerId": "",
+            "name": "bejegyzesek FSZF1",
+            "url": "http://localhost:8000/api/entries/FSZF1",
+            "method": "GET",
+            "sortNum": 15000,
+            "created": "2024-04-10T17:12:39.799Z",
+            "modified": "2024-04-10T17:17:53.422Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "6248b5ea-e088-474a-a0a4-0f4316d94b35",
+            "colId": "f3ea80e2-4ec3-4046-8434-97d65d42a09a",
+            "containerId": "",
+            "name": "bejegyzesek Copy Copy",
+            "url": "http://localhost:8000/api/entries",
+            "method": "GET",
+            "sortNum": 17500,
+            "created": "2024-04-10T17:12:44.087Z",
+            "modified": "2024-04-10T17:12:44.087Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "800459f1-1b67-4853-9002-d19a3c3aa985",
+            "colId": "f3ea80e2-4ec3-4046-8434-97d65d42a09a",
+            "containerId": "",
+            "name": "Új bejegyzés",
+            "url": "http://localhost:8000/api/entries",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-04-10T17:04:09.095Z",
+            "modified": "2024-04-10T17:12:30.650Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"activity_id\": 2,\n  \"class\": \"FSZF2\"\n  \n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
