@@ -1,0 +1,9 @@
+th.sort-asc::after {
+    padding-left: 1rem;
+    content: '\2193';
+}
+
+th.sort-desc::after {
+    padding-left: 1rem;
+    content: '\2191';
+}

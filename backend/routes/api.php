@@ -22,3 +22,4 @@ Route::get('activities', [\App\Http\Controllers\ActivityController::class, 'inde
 Route::get('entries', [\App\Http\Controllers\EntryController::class, 'index']);
 Route::get('entries/{class}', [\App\Http\Controllers\EntryController::class, 'showClass']);
 Route::post('entries', [\App\Http\Controllers\EntryController::class, 'store']);
+Route::post('entries/approve', [\App\Http\Controllers\EntryController::class, 'approve']);

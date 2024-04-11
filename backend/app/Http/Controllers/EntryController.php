@@ -50,4 +50,17 @@ class EntryController extends Controller
     {
         //
     }
+
+        /**
+     * Store a newly created resource in storage.
+     */
+    public function approve(Request $request)
+    {
+        $entry = Entry::findOrFail($request->entry_id);
+        $entry->status = "approved";
+        $entry->save();
+        return $entry;
+    }
+
+
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Button, Table, Col, Row } from 'react-bootstrap';
+import { H1, Form, Button, Table, Col, Row } from 'react-bootstrap';
 import config from 'config.js';
+import './Show.css';
 import Axios from 'axios';
 
 const Show = () => {
@@ -55,9 +56,23 @@ const Show = () => {
             })
     }
 
+    const approve = (id) => {
+        const data = {
+            'entry_id': id,
+        }
+        const url = config.serverHost + '/entries/approve'
+        Axios.post(url, data)
+            .then(response => {
+                getEntries();
+            })
+            .catch(error => {
+                console.warn(error)
+            })
+    }
+
     return (
         <>
-            <h1 className="text-center pb-3">Make the Earth green again!</h1>
+            <H1 className="text-center pb-3">Make the Earth green again!</H1>
             <Form onSubmit={formSubmit}>
                 <Row >
                     <Col className="pb-3" md={5}>
@@ -78,7 +93,7 @@ const Show = () => {
                     </Col>
                 </Row>
             </Form>
-            <EntriesTable data={entries} />
+            <EntriesTable data={entries} approveEntry={approve} />
             <div className="text-center">by zschopper</div>
         </>
 
@@ -86,28 +101,64 @@ const Show = () => {
 }
 
 const EntriesTable = (props) => {
+    const [sortCol, setSortCol] = useState('')
+    const [sortDir, setSortDir] = useState('asc')
+    const [filter, setFilter] = useState('');
+
+    const addSort = (col) => {
+        if (sortCol === col) {
+            setSortDir(sortDir === 'asc' ? 'desc' : 'asc')
+        } else {
+            setSortCol(col)
+            setSortDir('asc')
+        }
+    }
+
+    const compareEntries = (a, b) => {
+        switch (sortCol) {
+            case 'id': return (a.id - b.id) * (sortDir === 'asc' ? 1 : -1);
+            case 'activity': return a.activity.name.localeCompare(b.activity.name) * (sortDir === 'asc' ? 1 : -1);
+            case 'class': return a.class.localeCompare(b.class) * (sortDir === 'asc' ? 1 : -1);
+            case 'points': return (a.activity.points - b.activity.points) * (sortDir === 'asc' ? 1 : -1);
+            case 'status': return a.status.localeCompare(b.status) * (sortDir === 'asc' ? 1 : -1);
+            default:
+                return 1;
+        }
+    }
+
+    const filterEntries = (e) => {
+        return e.activity.name.includes(filter);
+    }
+
+    console.log(sortCol, sortDir)
+
     return (
-        props.data.length === 0 ? <div className="lead text-center text-lg"><strong>There is no data</strong>, <span className="text-muted">why don't you add some?</span></div> : <Table striped>
-            <thead><tr>
-                <th>Id</th>
-                <th>Activity</th>
-                <th>Class</th>
-                <th>Points</th>
-                <th>Status</th>
-            </tr></thead>
-            <tbody>
-                {props.data.map((entry, i) => (
-                    <tr>
-                        <td>{entry.id}</td>
-                        <td>{entry.activity.name}</td>
-                        <td>{entry.class}</td>
-                        <td>{entry.activity.points}</td>
-                        <td>{entry.status}</td>
-                    </tr>
-                ))}
-                <tr></tr>
-            </tbody>
-        </Table>
+        props.data.length === 0 ? <div className="lead text-center text-lg"><strong>There is no data</strong>, <span className="text-muted">why don't you add some?</span></div> : <>
+            <div className="filter">Search: <input className="form-control" type="text" value={filter} onChange={(e) => setFilter(e.target.value)} /></div>
+            <Table striped>
+                <thead><tr>
+                    <th className={sortCol === 'id' ? `sort-${sortDir}` : ''} onClick={() => addSort('id')}>Id</th>
+                    <th className={sortCol === 'activity' ? `sort-${sortDir}` : ''} onClick={() => addSort('activity')}>Activity</th>
+                    <th className={sortCol === 'class' ? `sort-${sortDir}` : ''} onClick={() => addSort('class')}>Class</th>
+                    <th className={sortCol === 'points' ? `sort-${sortDir}` : ''} onClick={() => addSort('points')}>Points</th>
+                    <th className={sortCol === 'status' ? `sort-${sortDir}` : ''} onClick={() => addSort('status')}>Status</th>
+                    <th>Actions</th>
+                </tr></thead>
+                <tbody>
+                    {props.data.filter(item => filterEntries(item)).sort((a, b) => compareEntries(a, b)).map((entry, i) => (
+                        <tr key={i}>
+                            <td>{entry.id}</td>
+                            <td>{entry.activity.name}</td>
+                            <td>{entry.class}</td>
+                            <td>{entry.activity.points}</td>
+                            <td>{entry.status}</td>
+                            <td>{entry.status === 'unapproved' && <Button onClick={() => props.approveEntry(entry.id)}>Approve</Button>}</td>
+                        </tr>
+                    ))}
+                    <tr></tr>
+                </tbody>
+            </Table></>
     )
 }
+
 export default Show;
